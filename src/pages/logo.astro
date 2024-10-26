@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>MNC</title>
+    <title>Kohei Harada</title>
   </head>
   <body>
     <div id="container"></div>
@@ -142,7 +142,7 @@
     return shuffle(fillUp(imageCoords, 1500));
   }
 
-  let images = ["KH_logo.png", "CF_logo.png"];
+  let images = ["../KH_logo.png", "../CF_logo.png"];
   loadImagesSequentially(images, function (loadedImages) {
     let gallery = [];
     gallery.push(getArrayFromImage(loadedImages[0], 400, 400));
