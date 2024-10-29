@@ -38,7 +38,7 @@ const { title } = Astro.props;
     <slot />
   </body>
 </html>
-<style lang="scss" is:global>
+<style is:global>
   :root {
     --fontColor: #111;
     --fontSubColor: #fff;
@@ -73,29 +73,26 @@ const { title } = Astro.props;
     pointer-events: none;
     border-radius: 50%;
     backdrop-filter: invert(1);
-    // mix-blend-mode: difference;
-    &--outer {
-      width: 30px;
-      height: 30px;
-      border: 1px solid var(--fontColor);
-      z-index: 12000;
-      opacity: 1;
-    }
-    &--inner {
-      width: 5px;
-      height: 5px;
-      left: -2.5px;
-      top: -2.5px;
-      z-index: 11000;
-      background: var(--fontColor);
-    }
+  }
+  .circle-cursor--outer {
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--fontColor);
+    z-index: 12000;
+    opacity: 1;
+  }
+  .circle-cursor--inner {
+    width: 5px;
+    height: 5px;
+    left: -2.5px;
+    top: -2.5px;
+    z-index: 11000;
+    background: var(--fontColor);
   }
 </style>
 <script>
   import gsap from "gsap";
   console.log(gsap);
-  
-
 
   class customCursor {
     constructor() {
@@ -109,7 +106,7 @@ const { title } = Astro.props;
       this.innerCursor = document.querySelector(".circle-cursor--inner");
       this.outerCursorBox = this.outerCursor.getBoundingClientRect();
       this.outerCursorSpeed = 0;
-      this.easing = gsap.parseEase("back.out(1.7)"); 
+      this.easing = gsap.parseEase("back.out(1.7)");
       this.clientX = -100;
       this.clientY = -100;
       this.showCursor = false;
