@@ -10,5 +10,12 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   integrations: [relativeLinks(), tailwind()],
   output: 'server',
-  adapter: cloudflare()
+  adapter: cloudflare(),
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  }
 });
