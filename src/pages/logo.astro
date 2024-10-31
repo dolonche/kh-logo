@@ -161,14 +161,16 @@
 
       let container = document.getElementById("container");
       container.appendChild(renderer.domElement);
+      const isMobile = window.innerWidth < 768 ? true : false;
+
 
       camera = new THREE.PerspectiveCamera(
         90,
         window.innerWidth / window.innerHeight,
         1,
-        5000
+        8000
       );
-      camera.position.z = 2800;
+      camera.position.z = isMobile ? 4800 : 3000;
 
       controls = new OrbitControls(camera, renderer.domElement);
 
