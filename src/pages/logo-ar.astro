@@ -9,21 +9,25 @@
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>Kohei Harada</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js" integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"
+      integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/css-var-editor"></script>
   </head>
   <body>
-    <video src=""></video>
+    <video src="" playsinline autoplay></video>
     <div id="container"></div>
   </body>
 </html>
 <style is:global>
-    :root {
-        --blur: 0px;
-        --contrast: 1;
-        --saturate: 1;
-        --hue: 0deg;
-    }
+  :root {
+    --blur: 0px;
+    --contrast: 1;
+    --saturate: 1;
+    --hue: 0deg;
+  }
   * {
     margin: 0;
     padding: 0;
@@ -35,7 +39,8 @@
     object-fit: cover;
   }
   body {
-    filter: blur(var(--blur)) contrast(var(--contrast)) saturate(var(--saturate)) hue-rotate(var(--hue));
+    filter: blur(var(--blur)) contrast(var(--contrast))
+      saturate(var(--saturate)) hue-rotate(var(--hue));
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -67,7 +72,6 @@
   document.body.appendChild(canvas);
   const videoElement = document.querySelector("video");
 
-  // Запрашиваем доступ к камере
   navigator.mediaDevices
     .getUserMedia({ video: true })
     .then((stream) => {
@@ -75,7 +79,7 @@
       videoElement.play();
     })
     .catch((error) => {
-      console.error("Ошибка доступа к камере:", error);
+      alert("Camera access error:", error);
     });
 
   function fillUp(array, max) {
