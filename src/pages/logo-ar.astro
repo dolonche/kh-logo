@@ -73,7 +73,11 @@
   const videoElement = document.querySelector("video");
 
   navigator.mediaDevices
-    .getUserMedia({ video: true })
+    .getUserMedia({video: {
+      facingMode: {
+        exact: "environment",
+      },
+    },})
     .then((stream) => {
       videoElement.srcObject = stream;
       videoElement.play();
