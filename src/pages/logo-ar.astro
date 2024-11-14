@@ -14,7 +14,6 @@
       integrity="sha512-WoO4Ih0CDOSLYafy22wZD/mcJ7k0ESLqtQsFa6zFKnEUrbtuGU+GkLtVhgt93xa2qewG5gKEC6CWlN8OaCTSVg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/css-var-editor"></script>
   </head>
   <body>
     <video src="" playsinline autoplay></video>
@@ -22,12 +21,6 @@
   </body>
 </html>
 <style is:global>
-  :root {
-    --blur: 0px;
-    --contrast: 1;
-    --saturate: 1;
-    --hue: 0deg;
-  }
   * {
     margin: 0;
     padding: 0;
@@ -39,8 +32,6 @@
     object-fit: cover;
   }
   body {
-    filter: blur(var(--blur)) contrast(var(--contrast))
-      saturate(var(--saturate)) hue-rotate(var(--hue));
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -71,13 +62,20 @@
   canvas.classList.add("tempcanvas");
   document.body.appendChild(canvas);
   const videoElement = document.querySelector("video");
+  const isMobile = window.innerWidth < 768 ? true : false;
 
   navigator.mediaDevices
-    .getUserMedia({video: {
-      facingMode: {
-        exact: "environment",
-      },
-    },})
+    .getUserMedia(
+      isMobile
+        ? {
+            video: {
+              facingMode: {
+                exact: "environment",
+              },
+            },
+          }
+        : { video: true }
+    )
     .then((stream) => {
       videoElement.srcObject = stream;
       videoElement.play();
@@ -211,7 +209,7 @@
         1,
         8000
       );
-      camera.position.z = isMobile ? 4800 : 3000;
+      camera.position.z = isMobile ? 4800 : 5000;
 
       controls = new OrbitControls(camera, renderer.domElement);
 
@@ -269,8 +267,8 @@
       requestAnimationFrame(animate);
       time++;
 
-      const radius = 3000; // радиус вращения камеры вокруг объекта
-      const angle = time * 0.01; // угол вращения, скорость настраивается
+      const radius = isMobile ? 5000 : 3000; 
+      const angle = time * 0.01; 
       camera.position.x = radius * Math.sin(angle);
       camera.position.z = radius * Math.cos(angle);
       camera.lookAt(scene.position);
