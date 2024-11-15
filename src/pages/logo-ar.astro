@@ -267,11 +267,7 @@
       requestAnimationFrame(animate);
       time++;
 
-      const radius = isMobile ? 5000 : 3000; 
-      const angle = time * 0.01; 
-      camera.position.x = radius * Math.sin(angle);
-      camera.position.z = radius * Math.cos(angle);
-      camera.lookAt(scene.position);
+      pointCloud.rotation.y += 0.01;
 
       let positions = geometry.attributes.position.array;
 
@@ -285,6 +281,7 @@
         positions[i + 2] += dZ;
       }
       geometry.attributes.position.needsUpdate = true;
+      controls.update();
       render();
     }
 
