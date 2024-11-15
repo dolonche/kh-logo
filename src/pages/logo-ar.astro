@@ -16,11 +16,69 @@
       referrerpolicy="no-referrer"></script>
   </head>
   <body>
-    <video src="" playsinline autoplay></video>
-    <div id="container"></div>
+    <div class="media-content">
+      <video src="" playsinline autoplay></video>
+      <div id="container"></div>
+    </div>
+    <div class="filter-sliders">
+      <div class="filter-sliders__item">
+        <span class="filter-sliders__item-name">Blur:</span>
+        <input
+          type="range"
+          name="blur"
+          id=""
+          class="filter-sliders__item-input"
+          min="0"
+          max="30"
+          value="0"
+        />
+      </div>
+      <div class="filter-sliders__item">
+        <span class="filter-sliders__item-name">Contrast:</span>
+        <input
+          type="range"
+          name="contrast"
+          id=""
+          class="filter-sliders__item-input"
+          min="0"
+          max="100"
+          value="1"
+        />
+      </div>
+      <div class="filter-sliders__item">
+        <span class="filter-sliders__item-name">Saturate:</span>
+        <input
+          type="range"
+          name="saturate"
+          id=""
+          class="filter-sliders__item-input"
+          min="0"
+          max="1000"
+          value="100"
+        />
+      </div>
+      <div class="filter-sliders__item">
+        <span class="filter-sliders__item-name">Color:</span>
+        <input
+          type="range"
+          name="hue"
+          id=""
+          class="filter-sliders__item-input"
+          min="0"
+          max="360"
+          value="0"
+        />
+      </div>
+    </div>
   </body>
 </html>
 <style is:global>
+  :root {
+    --blur: 0px;
+    --contrast: 100%;
+    --saturate: 1;
+    --hue: 0deg;
+  }
   * {
     margin: 0;
     padding: 0;
@@ -30,6 +88,8 @@
     height: 100%;
     position: absolute;
     object-fit: cover;
+    filter: blur(var(--blur)) contrast(var(--contrast))
+      saturate(var(--saturate)) hue-rotate(var(--hue));
   }
   body {
     display: flex;
@@ -48,6 +108,81 @@
     background: red;
     display: none;
   }
+  .filter-sliders {
+    position: absolute;
+    z-index: 1000;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    mix-blend-mode: difference;
+  }
+  .filter-sliders__item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 5px;
+  }
+  .filter-sliders__item-name {
+    width: 120px;
+    font-family: sans-serif;
+    color: white;
+    letter-spacing: 0.03em;
+  }
+  input[type="range"] {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    /*  slider progress trick  */
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  /* Track: webkit browsers */
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 15px;
+    background: pink;
+    border-radius: 16px;
+  }
+
+  /* Track: Mozilla Firefox */
+  input[type="range"]::-moz-range-track {
+    height: 15px;
+    background: pink;
+    border-radius: 16px;
+  }
+
+  /* Thumb: webkit */
+  input[type="range"]::-webkit-slider-thumb {
+    /* removing default appearance */
+    -webkit-appearance: none;
+    appearance: none;
+    /* creating a custom design */
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    /*  slider progress trick  */
+    box-shadow: -407px 0 0 400px #fff;
+  }
+
+  /* Thumb: Firefox */
+  input[type="range"]::-moz-range-thumb {
+    height: 15px;
+    width: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 1px solid #f50;
+    /*  slider progress trick  */
+    box-shadow: -407px 0 0 400px #f50;
+  }
 </style>
 <script>
   import * as THREE from "three";
@@ -63,6 +198,33 @@
   document.body.appendChild(canvas);
   const videoElement = document.querySelector("video");
   const isMobile = window.innerWidth < 768 ? true : false;
+
+  const updateCSSVariable = (name, value) => {
+    document.documentElement.style.setProperty(name, value);
+  };
+
+  document
+    .querySelector(".filter-sliders__item-input[name='saturate']")
+    .addEventListener("input", (event) => {
+      updateCSSVariable("--saturate", `${event.target.value}%`);
+    });
+
+  document
+    .querySelector(".filter-sliders__item-input[name='hue']")
+    .addEventListener("input", (event) => {
+      updateCSSVariable("--hue", `${event.target.value}deg`);
+    });
+
+  document
+    .querySelector(".filter-sliders__item-input[name='contrast']")
+    .addEventListener("input", (event) => {
+      updateCSSVariable("--contrast", `${event.target.value}`);
+    });
+  document
+    .querySelector(".filter-sliders__item-input[name='blur']")
+    .addEventListener("input", (event) => {
+      updateCSSVariable("--blur", `${event.target.value}px`);
+    });
 
   navigator.mediaDevices
     .getUserMedia(
